@@ -16,17 +16,15 @@ class LoginFormState extends State<LoginForm> {
   final _loginController = TextEditingController();
   final _passwordController = TextEditingController();
 
-  void _handleLogin() {
+  void _handleLogin() async {
     if (_formKey.currentState!.validate()) {
-      final user = User(login: _loginController.text, password: _passwordController.text);
-
-      final success = user.loginProcess();
+      final success = await User.checkLogin(_loginController.text, _passwordController.text);
       if (success) {
         Navigator.pushReplacementNamed(context, '/home');
       } else {
         ScaffoldMessenger.of(
           context,
-        ).showSnackBar(const SnackBar(content: Text("Login and/or password incorrect")));
+        ).showSnackBar(const SnackBar(content: Text("Login or password are not correctly")));
       }
     }
   }
@@ -51,7 +49,7 @@ class LoginFormState extends State<LoginForm> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             mainAxisSize: MainAxisSize.min,
-            children: <Widget>[
+            children: [
               Text("Welcome", textAlign: TextAlign.center, style: AppTextStyles.title),
               const SizedBox(height: 24),
               TextFormField(
@@ -77,15 +75,18 @@ class LoginFormState extends State<LoginForm> {
                 ),
               ),
               const SizedBox(height: 24),
-              ElevatedButton(
-                onPressed: _handleLogin,
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color(0xFFfede3b),
-                  foregroundColor: Colors.black,
-                  padding: const EdgeInsets.symmetric(vertical: 16),
-                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-                ).copyWith(overlayColor: MaterialStateProperty.all(const Color(0xFFef5b5a))),
-                child: const Text('Login', style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600)),
+              SizedBox(
+                width: MediaQuery.of(context).size.width * 0.7,
+                child: ElevatedButton(
+                  onPressed: _handleLogin,
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: const Color(0xFFfede3b),
+                    foregroundColor: Colors.black,
+                    padding: const EdgeInsets.symmetric(vertical: 16),
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                  ).copyWith(overlayColor: MaterialStateProperty.all(const Color(0xFFef5b5a))),
+                  child: const Text('Login', style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600)),
+                ),
               ),
               const SizedBox(height: 16),
               TextButton(
