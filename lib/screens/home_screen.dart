@@ -34,7 +34,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Future<void> _checkLogin() async {
     final prefs = await SharedPreferences.getInstance();
     final savedUser = prefs.getString("userName");
-    if (savedUser == null) {
+    if (savedUser == null || savedUser.isEmpty) {
       if (!mounted) return;
       Navigator.pushReplacementNamed(context, "/login");
     } else {

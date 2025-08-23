@@ -15,13 +15,11 @@ class _RegisterFormState extends State<RegisterForm> {
   final _formKey = GlobalKey<FormState>();
   final _nameController = TextEditingController();
   final _emailController = TextEditingController();
-  final _loginController = TextEditingController();
   final _passwordController = TextEditingController();
 
   void _handleRegister() async {
     if (_formKey.currentState!.validate()) {
       final user = User(
-        login: _loginController.text,
         password: _passwordController.text,
         name: _nameController.text,
         email: _emailController.text,
@@ -38,7 +36,6 @@ class _RegisterFormState extends State<RegisterForm> {
   void dispose() {
     _nameController.dispose();
     _emailController.dispose();
-    _loginController.dispose();
     _passwordController.dispose();
     super.dispose();
   }
@@ -77,16 +74,7 @@ class _RegisterFormState extends State<RegisterForm> {
                   border: OutlineInputBorder(),
                 ),
               ),
-              const SizedBox(height: 16),
-              TextFormField(
-                controller: _loginController,
-                validator: (v) => v == null || v.isEmpty ? "Enter your login" : null,
-                decoration: const InputDecoration(
-                  prefixIcon: Icon(Icons.account_circle, color: Color(0xFF1a1541)),
-                  labelText: "Login",
-                  border: OutlineInputBorder(),
-                ),
-              ),
+
               const SizedBox(height: 16),
               TextFormField(
                 controller: _passwordController,

@@ -1,5 +1,6 @@
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import '../models/user.dart';
 
 class LoginForm extends StatefulWidget {
   final VoidCallback onCreateAccount;
@@ -15,11 +16,19 @@ class _LoginFormState extends State<LoginForm> {
 
   Future<void> _login() async {
     if (emailController.text.isNotEmpty && passwordController.text.isNotEmpty) {
-      final prefs = await SharedPreferences.getInstance();
-      await prefs.setString("userName", emailController.text);
-
-      if (!mounted) return;
-      Navigator.pushReplacementNamed(context, "/home");
+      final valid = await User.checkLogin(emailController.text, passwordController.text);
+      if (valid) {
+        final prefs = await SharedPreferences.getInstance();
+        final name = prefs.getString("name");
+        await prefs.setString("userName", name ?? "");
+        if (!mounted) return;
+        Navigator.pushReplacementNamed(context, "/home");
+      } else {
+        if (!mounted) return;
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(const SnackBar(content: Text("Invalid email or password")));
+      }
     }
   }
 
