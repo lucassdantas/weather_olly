@@ -1,10 +1,10 @@
 import 'dart:convert';
 import 'package:geolocator/geolocator.dart';
 import 'package:http/http.dart' as http;
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 class WeatherService {
-  final String apiKey = "e9eec485995141de81b82802252308";
-
+  final String apiKey = dotenv.env['WEATHER_API_KEY'] ?? "";
   Future<Map<String, dynamic>> fetchWeather() async {
     bool serviceEnabled = await Geolocator.isLocationServiceEnabled();
     if (!serviceEnabled) {

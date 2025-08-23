@@ -2,8 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:weather_olly/screens/home_screen.dart';
 import 'package:weather_olly/screens/login_screen.dart';
 import 'package:weather_olly/theme/app_theme.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
-void main() {
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  await dotenv.load(fileName: ".env");
+
   runApp(const MyApp());
 }
 
