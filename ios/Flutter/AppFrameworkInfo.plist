@@ -12,6 +12,8 @@
   <string>6.0</string>
   <key>CFBundleName</key>
   <string>App</string>
+  <key>NSLocationWhenInUseUsageDescription</key>
+  <string>Precisamos da sua localização para mostrar o clima atual</string>
   <key>CFBundlePackageType</key>
   <string>FMWK</string>
   <key>CFBundleShortVersionString</key>

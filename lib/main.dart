@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:weather_olly/screens/home_screen.dart';
 import 'package:weather_olly/screens/login_screen.dart';
 import 'package:weather_olly/theme/app_theme.dart';
 
@@ -15,7 +16,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       home: LoginScreen(),
       theme: AppTheme.theme,
-      routes: {'/login': (context) => LoginScreen(), '/home': (context) => LoginScreen()},
+      routes: {'/login': (context) => LoginScreen(), '/home': (context) => HomeScreen()},
     );
   }
 }
