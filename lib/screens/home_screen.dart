@@ -33,32 +33,32 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Future<void> _checkLogin() async {
     final prefs = await SharedPreferences.getInstance();
-    final savedUser = prefs.getString("userName");
-    if (savedUser == null || savedUser.isEmpty) {
+    final logged = prefs.getBool('isLoggedIn') ?? false;
+    if (!logged) {
       if (!mounted) return;
-      Navigator.pushReplacementNamed(context, "/login");
+      Navigator.pushReplacementNamed(context, '/login');
     } else {
-      setState(() => userName = savedUser);
+      setState(() => userName = prefs.getString('name') ?? '');
     }
   }
 
   Future<void> _logout() async {
     final prefs = await SharedPreferences.getInstance();
-    await prefs.clear();
+    await prefs.setBool('isLoggedIn', false);
     if (!mounted) return;
-    Navigator.pushReplacementNamed(context, "/login");
+    Navigator.pushReplacementNamed(context, '/login');
   }
 
   Future<void> _loadWeather() async {
     try {
       final data = await weatherService.fetchWeather();
       setState(() {
-        temperatureC = data["temperature_celsius"];
-        temperatureF = data["temperature_fahrenheit"];
-        description = data["description"];
-        icon = data["icon"];
-        location = data["location"];
-        country = data["country"];
+        temperatureC = data['temperature_celsius'];
+        temperatureF = data['temperature_fahrenheit'];
+        description = data['description'];
+        icon = data['icon'];
+        location = data['location'];
+        country = data['country'];
         loading = false;
       });
     } catch (e) {
@@ -73,12 +73,12 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Welcome ${userName ?? ""}"),
+        title: Text('Welcome ${userName ?? ''}'),
         actions: [
           TextButton(
             onPressed: () => setState(() => showCelsius = !showCelsius),
             child: Text(
-              showCelsius ? "°C" : "°F",
+              showCelsius ? '°C' : '°F',
               style: const TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold),
             ),
           ),
@@ -94,18 +94,18 @@ class _HomeScreenState extends State<HomeScreen> {
                 : Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    if (icon != null) Image.network("https:$icon", width: 80, height: 80),
+                    if (icon != null) Image.network('https:$icon', width: 80, height: 80),
                     const SizedBox(height: 16),
                     Text(
                       showCelsius
-                          ? "${temperatureC?.toStringAsFixed(1)}°C"
-                          : "${temperatureF?.toStringAsFixed(1)}°F",
+                          ? '${temperatureC?.toStringAsFixed(1)}°C'
+                          : '${temperatureF?.toStringAsFixed(1)}°F',
                       style: const TextStyle(fontSize: 48, fontWeight: FontWeight.bold),
                     ),
                     const SizedBox(height: 8),
-                    Text(description ?? "", style: const TextStyle(fontSize: 24)),
+                    Text(description ?? '', style: const TextStyle(fontSize: 24)),
                     const SizedBox(height: 16),
-                    Text("${location ?? ""}, ${country ?? ""}", style: const TextStyle(fontSize: 18)),
+                    Text('${location ?? ''}, ${country ?? ''}', style: const TextStyle(fontSize: 18)),
                   ],
                 ),
       ),

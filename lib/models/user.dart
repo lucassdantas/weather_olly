@@ -10,8 +10,8 @@ class User {
   Future<void> saveUser() async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setString('password', password);
-    await prefs.setString('name', name!);
-    await prefs.setString('email', email!);
+    await prefs.setString('name', name);
+    await prefs.setString('email', email);
   }
 
   static Future<bool> checkLogin(String login, String password) async {

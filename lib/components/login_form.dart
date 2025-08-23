@@ -19,15 +19,14 @@ class _LoginFormState extends State<LoginForm> {
       final valid = await User.checkLogin(emailController.text, passwordController.text);
       if (valid) {
         final prefs = await SharedPreferences.getInstance();
-        final name = prefs.getString("name");
-        await prefs.setString("userName", name ?? "");
+        await prefs.setBool('isLoggedIn', true);
         if (!mounted) return;
-        Navigator.pushReplacementNamed(context, "/home");
+        Navigator.pushReplacementNamed(context, '/home');
       } else {
         if (!mounted) return;
         ScaffoldMessenger.of(
           context,
-        ).showSnackBar(const SnackBar(content: Text("Invalid email or password")));
+        ).showSnackBar(const SnackBar(content: Text('Invalid email or password')));
       }
     }
   }
@@ -36,15 +35,15 @@ class _LoginFormState extends State<LoginForm> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        TextField(controller: emailController, decoration: const InputDecoration(labelText: "Email")),
+        TextField(controller: emailController, decoration: const InputDecoration(labelText: 'Email')),
         TextField(
           controller: passwordController,
-          decoration: const InputDecoration(labelText: "Password"),
+          decoration: const InputDecoration(labelText: 'Password'),
           obscureText: true,
         ),
         const SizedBox(height: 20),
-        ElevatedButton(onPressed: _login, child: const Text("Login")),
-        TextButton(onPressed: widget.onCreateAccount, child: const Text("Create Account")),
+        ElevatedButton(onPressed: _login, child: const Text('Login')),
+        TextButton(onPressed: widget.onCreateAccount, child: const Text('Create Account')),
       ],
     );
   }
